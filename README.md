@@ -20,7 +20,7 @@ Run `qprimes [svxd] <min> <max>` to generate prime numbers between `[<min>, <max
 and paging.
 
 First, a list of all primes between 2 and `sqrt( <max> )` is generated.
-Then, that list is used to sieve out the primes in the specified value range.
+Then that list is used to sieve out the primes in the specified value range.
 
 ## Speed and Memory
 Processing time is O( n log log n ).
