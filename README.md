@@ -14,6 +14,23 @@ Run `qprimes` without arguments for extended help.
 
 Run `qprimes [svxd] <min> <max>` to generate prime numbers between `[<min>, <max>]`.
 
+## Quick Example
+```
+$ git clone https://github.com/johsteffens/qprimes
+$ cd qprimes
+$ gcc main.c -O3 -lm -o qprimes
+$ ./qprimes 0xf000000000000000 0xf000000000000100
+17293822569102704683
+17293822569102704699
+17293822569102704759
+17293822569102704761
+17293822569102704771
+17293822569102704803
+17293822569102704887
+
+7 primes between 17293822569102704640 and 17293822569102704896
+$
+```
 ## Method
 
 **qprimes** uses a mix of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) 
@@ -34,23 +51,6 @@ is extremely large, the total time can be larger.
 
 Maximum possible memory usage is around 270 MBytes. 
 
-## Example
-```
-$ git clone https://github.com/johsteffens/qprimes
-$ cd qprimes
-$ gcc main.c -O3 -lm -o qprimes
-$ ./qprimes 0xf000000000000000 0xf000000000000100
-17293822569102704683
-17293822569102704699
-17293822569102704759
-17293822569102704761
-17293822569102704771
-17293822569102704803
-17293822569102704887
-
-7 primes between 17293822569102704640 and 17293822569102704896
-$
-```
 ## Motivation
 
 I had some need for prime numbers for Monte Carlo randomization and realized that above, 
