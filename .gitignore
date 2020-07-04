@@ -1,0 +1,11 @@
+qprimes
+qprimes.cbp
+qprimes.workspace
+qprimes.workspace.layout
+qprimes.layout
+qprimes.depend
+*.out
+dev
+bin
+obj
+temp
