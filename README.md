@@ -41,7 +41,7 @@ Computation time is generally below 30 seconds
 *(tested on Intel^(R) Core^TM i7 6700)*. If the value range `<max>-<min>`
 is extremely large, the total time can be larger.
 
-Maximum possible memory usage is around 2500 MBytes. 
+Maximum possible memory usage is around 1040 MBytes. 
 
 ## Method
 
