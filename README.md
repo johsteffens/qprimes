@@ -1,6 +1,4 @@
-# qprimes
-
-Fast and Simple 64-bit Prime Generator
+# Fast and Simple 64-bit Prime Generator
 
 <a name="anchor_what_it_is"></a>
 ## What it is
