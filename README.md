@@ -33,7 +33,7 @@ $
 ```
 ## Speed and Memory
 Processing time is O( n log log n ).
-Memory requirement is O( n ).
+Memory requirement is O( n / log( n ) ).
 
 In most practical situations `n` can be set to `squareroot( <max> )`.
 
@@ -41,7 +41,7 @@ Computation time is generally below 30 seconds
 *(tested on Intel^(R) Core^TM i7 6700)*. If the value range `<max>-<min>`
 is extremely large, the total time can be larger.
 
-Maximum possible memory usage is around 270 MBytes. 
+Maximum possible memory usage is around 2240 MBytes. 
 
 ## Method
 
