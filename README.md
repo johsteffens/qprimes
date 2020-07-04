@@ -54,7 +54,7 @@ Then that list is used to sieve out the primes in the specified value range.
 ## Motivation
 
 I had some need for prime numbers for Monte Carlo randomization and realized that above, 
-say 2^40 , prime numbers are not so easy to come by. So, I wrote a generator.
+say 2^40 , prime numbers are not so easy to come by. So, I wrote this generator.
 
 This solution is probably a good balance between speed and code-complexity and thus might be
 interesting to a wider public. It is not the fastest algorithm but fast enough to allow waiting for
