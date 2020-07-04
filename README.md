@@ -31,14 +31,6 @@ $ ./qprimes 0xf000000000000000 0xf000000000000100
 7 primes between 17293822569102704640 and 17293822569102704896
 $
 ```
-## Method
-
-**qprimes** uses a mix of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) 
-and paging.
-
-First, a list of all primes between 2 and `sqrt( <max> )` is generated.
-Then that list is used to sieve out the primes in the specified value range.
-
 ## Speed and Memory
 Processing time is O( n log log n ).
 Memory requirement is O( n ).
@@ -50,6 +42,14 @@ Computation time is generally below 30 seconds
 is extremely large, the total time can be larger.
 
 Maximum possible memory usage is around 270 MBytes. 
+
+## Method
+
+**qprimes** uses a mix of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) 
+and paging.
+
+First, a list of all primes between 2 and `sqrt( <max> )` is generated.
+Then that list is used to sieve out the primes in the specified value range.
 
 ## Motivation
 
