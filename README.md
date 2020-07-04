@@ -38,6 +38,8 @@ Maximum possible memory usage is around 270 MBytes.
 
 ## Example
 ```
+$ git clone https://github.com/johsteffens/qprimes
+$ cd qprimes
 $ gcc main.c -O3 -lm -o qprimes
 $ ./qprimes 0xf000000000000000 0xf000000000000100
 17293822569102704683
