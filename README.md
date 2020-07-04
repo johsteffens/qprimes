@@ -60,7 +60,7 @@ This solution is probably a good balance between speed and code-complexity and t
 interesting to a wider public. It is not the fastest algorithm but fast enough to allow waiting for
 the result without getting too impatient.
 
-The Name is an abbreviation of *Quick Prime Numbers*
+The name is an abbreviation from *Quick Prime Numbers*
 
 Hope you find it useful.
 
