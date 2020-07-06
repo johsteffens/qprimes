@@ -57,7 +57,7 @@ Computing the last few primes below 2<sup>64</sup>:
 
 ## Motivation
 
-Prime numbers are needed in different disciplines of numerical processing.
+Prime numbers are needed in various disciplines of numerical processing.
 I wrote this generator because arbitrary prime numbers above, say 2<sup>40</sup>,
 are not so easy to find on public sources.
 
