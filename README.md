@@ -10,11 +10,14 @@ between a specified minimum and maximum value of range [0, 2^64 - 1].
 
 Build: `gcc main.c -O3 -lm -o qprimes`
 
-Run `qprimes` without arguments for extended help.
+Run `qprimes <min> <max>` to generate prime numbers between `[<min>, <max>]`.
 
-Run `qprimes [svxd] <min> <max>` to generate prime numbers between `[<min>, <max>]`.
+`<min> <max>` can be given in decimal or preceded by `0x` in haxadecimal form.
+
+Run `qprimes` without arguments for more options.
 
 ## Quick Example
+
 ```
 $ git clone https://github.com/johsteffens/qprimes
 $ cd qprimes
@@ -29,41 +32,48 @@ $ ./qprimes 0xf000000000000000 0xf000000000000100
 17293822569102704887
 
 7 primes between 17293822569102704640 and 17293822569102704896
+Heap size: 259912537 Bytes
 $
 ```
-## Speed and Memory
-Processing time is O( n log log n ).
-Memory requirement is O( n / log( n ) ).
-
-In most practical situations `n` can be set to `squareroot( <max> )`.
-
-Computation time is generally below 30 seconds
-*(tested on Intel^(R) Core^TM i7 6700)*. If the value range `<max>-<min>`
-is extremely large, the total time can be larger.
-
-Maximum possible memory usage is around 1200 MBytes. 
-
 ## Method
 
 **qprimes** uses a mix of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) 
 and paging.
 
 First, a list of all primes between 2 and `sqrt( <max> )` is generated.
-Then that list is used to sieve out the primes in the specified value range.
+That list is used to determine primes in the desired value range.
+
+## Speed and Memory
+
+With `n := squareroot( <max> )` and `r := <max> - <min>`:
+
+   * Processing time is about O( n log log n ) + O( r ).
+   * Memory requirement is about O( n ).
+   
+The maximum possible heap memory usage is around 270 MBytes.
+   
+### Timing for computing last few primes below 2^64
+
+`qprimes 0xFFFFFFFFFFFFFF00 0xFFFFFFFFFFFFFFFF`
+
+|Platform | Time |
+| ------- | ---- |
+| Intel^(R) Core^TM i7 6700 |  22 seconds |
+| Raspberry Pi 3 Model B+  | 250 seconds | 
+| Raspberry Pi 2 Model B   | 370 seconds |
 
 ## Motivation
 
-I had some need for prime numbers for Monte Carlo randomization and realized that above, 
-say 2^40 , prime numbers are not so easy to come by. So, I wrote this generator.
+Prime numbers are needed in different disciplines of numerical processing.
+I wrote this generator because arbitrary prime numbers above, say 2^40 , are not so easy to find
+on public sources.
 
-This solution is probably a good balance between speed and code-complexity and thus might be
-interesting to a wider public. It is not the fastest algorithm but fast enough to allow waiting for
-the result without getting too impatient.
+This solution achieves adequate runtime efficiency given the code-simplicity. 
+It is not the fastest possible algorithm but should well suffice for the intended use cases.
 
-The name is an abbreviation from *Quick Prime Numbers*
-
-Hope you find it useful.
+Hope you find it useful, too.
 
 ------
 
 <sub>&copy; Johannes B. Steffens</sub>
+

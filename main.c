@@ -30,7 +30,7 @@ SOFTWARE.
 #include <math.h>
 #include <inttypes.h>
 
-int scan_options( const char* s, int* verbose, int* hexout )
+int scan_options( const char* s, int* verbose, int* hexout, int* primeout )
 {
     if( s[0] >= 'a' && s[0] <= 'z' )
     {
@@ -42,6 +42,8 @@ int scan_options( const char* s, int* verbose, int* hexout )
                 case 'v': *verbose = 1; break;
                 case 'd': *hexout  = 0; break;
                 case 'x': *hexout  = 1; break;
+                case 'c': *primeout = 0; break;
+                case 'p': *primeout = 1; break;
                 default: break;
             }
         }
@@ -59,36 +61,51 @@ void scan_u64( const char* s, uint64_t* v )
     sscanf( s, f, v );
 }
 
-void out_of_memory( void )
+void* qpmalloc( size_t size )
 {
-    fprintf( stderr, "\nOut of memory.\n" );
-    exit( 1 );
+    void* p = malloc( size );
+    if( !p )
+    {
+        fprintf( stderr, "\nFailed allocating %zu bytes of memory.\n", size );
+        exit( 1 );
+    }
+    return p;
+}
+
+void printhelp( void )
+{
+    printf
+    (
+        "qprimes: Lists all prime numbers between <min> and <max> to stdout.\n"
+        "\n"
+        "Usage: qprimes [OPTION] MIN MAX\n"
+        "\n"
+        "Arguments:\n"
+        "  MIN, MAX:\n"
+        "    Unsigned integer below 2^64.\n"
+        "    Prepending '0x' indicates hexadecimal form.\n"
+        "\n"
+        "  OPTION:\n"
+        "    v    (default) verbose mode \n"
+        "    s              silent mode\n"
+        "    p    (default) outputs actual prime numbers\n"
+        "    c              outputs prime-count for the given range.\n"
+        "    d    (default) outputs numbers in decimal form\n"
+        "    x              outputs numbers in hexadecimal form\n"
+        "\n"
+        "Examples:\n"
+        "    qprimes 100000000000 100000001000\n"
+        "    qprimes 0x1a30 0xfa30\n"
+        "    qprimes cs 0x1a30 0xfa30\n"
+        "\n"
+    );
 }
 
 int main( int argc, char* argv[] )
 {
-    if( argc < 3 )
+    if( argc < 2 )
     {
-        printf( "qprimes: Lists all prime numbers between <min> and <max> to stdout.\n" );
-        printf( "\n" );
-        printf( "Usage: qprimes [OPTION] MIN MAX\n" );
-        printf( "\n" );
-        printf( "Arguments:\n" );
-        printf( "  MIN, MAX:\n" );
-        printf( "    Unsigned integer below 2^64.\n" );
-        printf( "    Prepending '0x' indicates hexadecimal form.\n" );
-        printf( "\n" );
-        printf( "  OPTION:\n" );
-        printf( "    s    silent; (outputs just prime numbers)\n" );
-        printf( "    v    verbose\n" );
-        printf( "    x    outputs prime numbers in hexadecimal form\n" );
-        printf( "    d    outputs prime numbers in decimal form\n" );
-        printf( "\n" );
-        printf( "Examples:\n" );
-        printf( "    qprimes 100000000000 100000001000\n" );
-        printf( "    qprimes 0x1a30 0xfa30\n" );
-        printf( "    qprimes xs 0x1a30 0xfa30\n" );
-        printf( "\n" );
+        printhelp();
         return 1;
     }
 
@@ -97,114 +114,115 @@ int main( int argc, char* argv[] )
 
     int verbose = 1;
     int hexout = 0;
+    int primeout = 1;
 
     int argi = 1;
-    if( argi < argc ) argi += scan_options( argv[ argi ], &verbose, &hexout );
+    if( argi < argc ) argi += scan_options( argv[ argi ], &verbose, &hexout, &primeout );
     if( argi < argc ) scan_u64( argv[ argi++ ], &val_min );
     if( argi < argc ) scan_u64( argv[ argi++ ], &val_max );
 
     val_max = val_max < val_min ? val_min : val_max;
 
+    uint64_t val_range = val_max - val_min;
+
     const char* fout = hexout ? "%"PRIx64"\n" : "%"PRIu64"\n";
 
     // sieving initial primes ...
     uint64_t smax  = sqrt( val_max ) + 1;
-    size_t sbits = (  smax >> 1 ) + 1;
-    size_t dsize = ( sbits >> 3 ) + 1;
-    uint8_t* d = malloc( dsize );
-    if( !d ) out_of_memory();
-    memset( d, 0, dsize );
+    uint64_t sbits = (  smax >> 1 ) + 1;
+    size_t d0size = ( sbits >> 3 ) + 1;
+    uint8_t* d0 = qpmalloc( d0size );
+    memset( d0, 0, d0size );
 
-    d[ 0 ] = 1;
-    for( size_t n = 3; n * n < smax; n += 2 )
+    d0[ 0 ] = 1;
+    for( uint64_t n = 3; n * n < smax; n += 2 )
     {
-        if( ( d[ n >> 4 ] & ( 1 << ( ( n >> 1 ) & 7 ) ) ) == 0 )
+        if( !( d0[ n >> 4 ] & ( 1 << ( ( n >> 1 ) & 7 ) ) ) )
         {
-            for( size_t i = ( n * n ) >> 1; i < sbits; i += n )
+            for( uint64_t i = ( n * n ) >> 1; i < sbits; i += n )
             {
-                d[ i >> 3 ] |= ( 1 << ( i & 7 ) );
+                d0[ i >> 3 ] |= ( 1 << ( i & 7 ) );
             }
         }
     }
 
-    // storing initial primes ...
-    size_t plimit = ( ( 1.256 * ( smax + 2 ) ) / log( smax + 2 ) );
-    uint32_t* parr = malloc( plimit * sizeof( uint32_t ) );
-    if( !parr ) out_of_memory();
-
-    size_t psize = 0;
-    parr[ psize++ ] = 2;
-
-    for( size_t i = 1; i < sbits; i++ )
-    {
-        if( ( d[ i >> 3 ] & ( 1 << ( i & 7 ) ) ) == 0 )
-        {
-            uint64_t prime = i * 2 + 1;
-            if( prime <= smax )
-            {
-                parr[ psize++ ] = prime;
-            }
-        }
-    }
-
-    free( d );
+    uint64_t pcount = 0;
 
     // output initial primes that overlap with test-range ...
-    uint64_t pcount = 0;
-    if( parr[ psize - 1 ] >= val_min )
+    if( val_min <= 2 && val_max >= 2 )
     {
-        for( size_t i = 0; i < psize; i++ )
+        if( primeout ) printf( fout, 2ull );
+        pcount++;
+    }
+
+    for( uint64_t i = val_min >> 2; i < sbits; i++ )
+    {
+        if( !( d0[ i >> 3 ] & ( 1 << ( i & 7 ) ) ) )
         {
-            uint64_t prime = parr[ i ];
+            uint64_t prime = i * 2 + 1;
             if( prime >= val_min && prime <= val_max )
             {
-                printf( fout, prime );
+                if( primeout ) printf( fout, prime );
                 pcount++;
             }
         }
     }
 
-    const uint64_t pg_size_exp = 20;
-    uint64_t pg_size = 1ull << pg_size_exp;
-    dsize = pg_size;
-    d = malloc( dsize );
-    if( !d ) out_of_memory();
-
     // stepping through pages ...
-    for( uint64_t pg = val_min / pg_size; pg <= val_max / pg_size; pg++ )
+
+    uint64_t pg_size_exp = 20;
+    for( uint64_t i = 0; i < pg_size_exp; i++ )
     {
-        memset( d, 0, dsize );
-        for( size_t i = 0; i < psize; i++ )
+        if( ( 1ull << i ) > val_range )
         {
-            uint64_t p = parr[ i ];
-            for( size_t j = ( p - ( ( pg * pg_size ) % p ) ) % p; j < dsize; j += p )
+            pg_size_exp = i + 1;
+            break;
+        }
+    }
+
+    size_t d1size = 1ull << pg_size_exp;
+    uint8_t* d1 = qpmalloc( d1size );
+
+    uint64_t pg_start = val_min >> pg_size_exp;
+    uint64_t pg_end   = val_max >> pg_size_exp;
+    for( uint64_t pg = pg_start; pg <= pg_end; pg++ )
+    {
+        for( uint64_t j = 0; j < d1size; j++ ) d1[ j ] = ( j & 1 ) ? 0 : 1;
+        for( uint64_t i = 1; i < sbits; i++ )
+        {
+            if( !( d0[ i >> 3 ] & ( 1 << ( i & 7 ) ) ) )
             {
-                d[ j ] = 1;
+                uint64_t prime = i * 2 + 1;
+                uint64_t start = ( prime - ( ( pg << pg_size_exp ) % prime ) ) % prime;
+                for( uint64_t j = start; j < d1size; j += prime ) d1[ j ] = 1;
             }
         }
 
-        for( size_t j = 0; j < dsize; j++ )
+        for( uint64_t j = 0; j < d1size; j++ )
         {
-            if( !d[ j ] )
+            if( !d1[ j ] )
             {
-                uint64_t prime = pg * pg_size + j;
+                uint64_t prime = ( pg << pg_size_exp ) + j;
                 if( prime > val_max ) break;
                 if( prime > 1 && prime >= val_min )
                 {
-                    printf( fout, prime );
+                    if( primeout ) printf( fout, prime );
                     pcount++;
                 }
             }
         }
     }
 
-    free( d );
-    free( parr );
+    if( !primeout ) printf( fout, pcount );
 
     if( verbose )
     {
         printf( "\n%"PRIu64" primes between %"PRIu64" and %"PRIu64"\n", pcount, val_min, val_max );
+        printf( "Heap size: %zu Bytes\n", d0size + d1size );
     }
+
+    free( d0 );
+    free( d1 );
 
     return 0;
 }
