@@ -37,7 +37,7 @@ That list is used to determine primes in the desired value range.
 
 ## Speed and Memory
 
-With n := MAX<sup>1/2</sup> and r := MAN - MIN:
+With n := MAX<sup>1/2</sup> and r := MAX - MIN:
 
    * Processing time is about O( n log log n ) for r << n.
    * Memory requirement is about O( n ).
