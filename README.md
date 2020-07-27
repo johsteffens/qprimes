@@ -48,6 +48,7 @@ The maximum possible heap memory usage is around 270 MBytes.
 
 Computing the last few primes below 2<sup>64</sup>:
 `qprimes 0xFFFFFFFFFFFFFF00 0xFFFFFFFFFFFFFFFF`
+(Worst case for given quantity; smaller primes compute fatser.)
 
 |Platform | Time |
 | ------- | ---- |
