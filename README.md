@@ -46,12 +46,12 @@ The maximum possible heap memory usage is around 270 MBytes.
    
 ### Timing Example
 
-Computing the last few primes below 2<sup>64</sup>:
-`qprimes 0xFFFFFFFFFFFFFF00 0xFFFFFFFFFFFFFFFF`
-<br><sub>Worst case for given quantity; smaller primes compute faster.</sub>
+Command: `qprimes 0xFFFFFFFFFFFFFF00 0xFFFFFFFFFFFFFFFF`
+<br>This test computes the last few primes below 2<sup>64</sup>. It is the worst case for the gven prime window size. Smaller primes will compute faster.
 
 |Platform | Time |
 | ------- | ---- |
+| AMD Ryzen<sup>TM</sup> 9 7950X | 9 seconds |
 | Intel<sup>R</sup> Core<sup>TM</sup> i7 6700 |  22 seconds |
 | Raspberry Pi 3 Model B+  | 250 seconds | 
 | Raspberry Pi 2 Model B   | 370 seconds |
