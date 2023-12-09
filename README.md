@@ -2,7 +2,7 @@
 
 ## What it is
 
-**qprimes** is a console program, computing all prime numbers 
+**qprimes** is a fast console program, computing all prime numbers 
 between a specified minimum and maximum value of range [0, 2<sup>64</sup> - 1].
 
 ## Usage
