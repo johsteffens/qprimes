@@ -62,9 +62,6 @@ Prime numbers are needed in various disciplines of numerical processing.
 I wrote this generator because arbitrary prime numbers above, say 2<sup>40</sup>,
 were not so easy to find on public sources.
 
-This solution achieves adequate runtime efficiency given the code-simplicity. 
-It is not the fastest possible algorithm but should well suffice for the intended use cases.
-
 ------
 
 <sub>&copy; Johannes B. Steffens</sub>
