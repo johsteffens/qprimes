@@ -27,14 +27,6 @@ $ ./qprimes 10000000001099 10000000001199
 4 primes between 10000000001099 and 10000000001199
 Heap size: 197899 Bytes
 ```
-## Method
-
-**qprimes** uses a mix of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) 
-and paging.
-
-First, a list of all primes between 2 and $`\sqrt{MAX}`$ is generated.
-That list is used to determine primes in the desired value range.
-
 ## Speed and Memory
 
 With $`n := \sqrt{ MAX }`$ and $`r := MAX - MIN`$:
@@ -47,7 +39,8 @@ The maximum possible heap memory usage is around 270 MBytes.
 ### Timing Example
 
 Command: `qprimes 0xFFFFFFFFFFFFFF00 0xFFFFFFFFFFFFFFFF`
-<br>This test computes the last few primes below 2<sup>64</sup>. It is the worst case for the gven prime window size. Smaller primes will compute faster.
+<br>This test computes the last few primes below 2<sup>64</sup>.
+It is the worst case for the gven prime window size. Smaller primes will compute faster.
 
 |Platform | Time |
 | ------- | ---- |
@@ -56,11 +49,39 @@ Command: `qprimes 0xFFFFFFFFFFFFFF00 0xFFFFFFFFFFFFFFFF`
 | Raspberry Pi 3 Model B+  | 250 seconds | 
 | Raspberry Pi 2 Model B   | 370 seconds |
 
+## Method
+
+**qprimes** uses a combination of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) 
+and paging.
+
+
+### Description
+
+We begin with the trivial observation that a an integer q is prime exactly when no 
+integer p such that 1 < p < q divides q. Since any such p is either prime or composite, 
+it is sufficient to test q by all primes below q. If any $p > \sqrt{q}$ divides q,
+so does ${q \over p}$, which is smaller than $\sqrt{q}$. Hence, we need only
+test q with primes up to $\sqrt{q}$.
+
+If a sequence of primes is needed, instead of explicitly testing for divisibility, it is 
+generally much faster to simply cross out all non-primes in an interval by computing
+multiples of primes gathered so far. This approach is called [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
+and we use it to collect all primes up to $\sqrt{MAX}$. We then select an appropriate
+interval (called page) including the target range $[MIN,MAX]$ and use previously gathered primes
+to sieve out non-primes in that interval. What remains is the set of desired prime values.
+
 ## Motivation
 
-Prime numbers are needed in various disciplines of numerical processing.
-I wrote this generator because arbitrary prime numbers above, say $`2^{40}`$,
-were not so easy to find on public sources.
+Prime numbers are useful in various disciplines of numerical processing such as
+[LCGs](https://en.wikipedia.org/wiki/Linear_congruential_generator)
+and [hash tables](https://en.wikipedia.org/wiki/Hash_table).
+
+I experimented especially with [cuckoo hashing](https://en.wikipedia.org/wiki/Cuckoo_hashing)
+to develop specific associative binding and runtime type awareness techniques
+in [beth](https://github.com/johsteffens/beth). I prefer using LCGs for algorithm testing in
+[monte carlo simulations](https://en.wikipedia.org/wiki/Monte_Carlo_method).
+
+I wrote this simple prime generator as tool for developing/improving above techniques.
 
 ------
 
