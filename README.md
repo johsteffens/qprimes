@@ -39,7 +39,7 @@ That list is used to determine primes in the desired value range.
 
 With $`n := \sqrt{ MAX }`$ and $`r := MAX - MIN`$:
 
-   * Processing time is about $`O( n log log n )`$ for $`r << n`$.
+   * Processing time is about $`O( n\ log( log( n ) ) )`$ for $`r << n`$.
    * Memory requirement is about $`O( n )`$.
    
 The maximum possible heap memory usage is around 270 MBytes.
