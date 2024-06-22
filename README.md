@@ -3,13 +3,13 @@
 ## What it is
 
 **qprimes** is a fast console program, computing all prime numbers 
-between a specified minimum and maximum value of range [0, 2<sup>64</sup> - 1].
+between a specified minimum and maximum value of range $`[0, 2^{64} - 1]`$.
 
 ## Usage
 
    * Build: `gcc main.c -O3 -lm -o qprimes`
-   * Run `qprimes MIN MAX` to generate prime numbers between [MIN, MAX].
-   * MIN, MAX can be expressed in decimal form or, if preceded by `0x`, in haxadecimal form.
+   * Run `qprimes MIN MAX` to generate prime numbers between $`[MIN, MAX]`$.
+   * $`MIN, MAX`$ can be expressed in decimal form or, if preceded by `0x`, in haxadecimal form.
    * Run `qprimes` without arguments for more options.
 
 ## Quick Example
@@ -32,15 +32,15 @@ Heap size: 197899 Bytes
 **qprimes** uses a mix of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) 
 and paging.
 
-First, a list of all primes between 2 and MAX<sup>1/2</sup> is generated.
+First, a list of all primes between 2 and $`\sqrt{MAX}`$ is generated.
 That list is used to determine primes in the desired value range.
 
 ## Speed and Memory
 
-With n := MAX<sup>1/2</sup> and r := MAX - MIN:
+With $`n := \sqrt{ MAX }`$ and $`r := MAX - MIN`$:
 
-   * Processing time is about O( n log log n ) for r << n.
-   * Memory requirement is about O( n ).
+   * Processing time is about $`O( n log log n )`$ for $`r << n`$.
+   * Memory requirement is about $`O( n )`$.
    
 The maximum possible heap memory usage is around 270 MBytes.
    
@@ -59,7 +59,7 @@ Command: `qprimes 0xFFFFFFFFFFFFFF00 0xFFFFFFFFFFFFFFFF`
 ## Motivation
 
 Prime numbers are needed in various disciplines of numerical processing.
-I wrote this generator because arbitrary prime numbers above, say 2<sup>40</sup>,
+I wrote this generator because arbitrary prime numbers above, say $`2^{40}`$,
 were not so easy to find on public sources.
 
 ------
