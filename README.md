@@ -71,7 +71,7 @@ interval (called page) including the target range $[MIN,MAX]$ and use previously
 to sieve out non-primes in that interval. What remains is the set of desired prime values.
 
 Although the algorithm has its roots in ancient times, it is still considered among the most
-efficient way to generate a sequence of prime numbers.
+efficient ways to generate a sequence of prime numbers.
 
 ## Motivation
 
