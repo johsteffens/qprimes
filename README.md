@@ -54,7 +54,6 @@ It is the worst case for the gven prime window size. Smaller primes will compute
 **qprimes** uses a combination of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) 
 and paging.
 
-
 ### Description
 
 We begin with the prime definition: An integer q is prime exactly when no 
@@ -70,6 +69,9 @@ multiples of primes gathered so far. This approach is called [sieving](https://e
 and we use it to collect all primes up to $\sqrt{MAX}$. We then select an appropriate
 interval (called page) including the target range $[MIN,MAX]$ and use previously gathered primes
 to sieve out non-primes in that interval. What remains is the set of desired prime values.
+
+Although the algorithm has its roots in ancient times, it is still considered among the most
+efficient way to generate a sequence of prime numbers.
 
 ## Motivation
 
