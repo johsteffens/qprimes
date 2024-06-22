@@ -77,7 +77,7 @@ Prime numbers are useful in various disciplines of numerical processing such as
 and [hash tables](https://en.wikipedia.org/wiki/Hash_table).
 
 I experimented especially with [cuckoo hashing](https://en.wikipedia.org/wiki/Cuckoo_hashing)
-to develop specific associative binding and runtime type awareness techniques
+to develop the specific associative binding and runtime type awareness technique
 in [beth](https://github.com/johsteffens/beth). I prefer using LCGs for algorithm testing in
 [monte carlo simulations](https://en.wikipedia.org/wiki/Monte_Carlo_method).
 
