@@ -56,7 +56,7 @@ and paging.
 
 ### Description
 
-We begin with the prime definition: An integer q is prime exactly when no 
+We begin with the prime definition: An integer q > 1 is prime exactly when no 
 integer p > 1 and p < q divides q. 
 
 Since any such p is either prime or composite, it is sufficient to test q by all primes below q. 
