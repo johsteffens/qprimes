@@ -60,8 +60,8 @@ We begin with the prime definition: An integer q > 1 is prime exactly when no
 integer p > 1 and p < q divides q. 
 
 Since any such p is either prime or composite, it is sufficient to test q by all primes below q. 
-If any $p > \sqrt{q}$ divides q, so does ${q \over p}$, which is smaller than $\sqrt{q}$. Hence, we need only
-test q with primes up to $\sqrt{q}$.
+If any $p > \sqrt{q}$ divides q, so does ${q \over p}$, which is smaller than $\sqrt{q}$. Hence, we only
+need to test q with primes up to $\sqrt{q}$.
 
 If a sequence of primes is needed, instead of explicitly testing for divisibility, it is 
 generally much faster to simply cross out all non-primes in an interval by computing
