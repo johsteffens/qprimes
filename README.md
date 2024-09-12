@@ -60,7 +60,7 @@ Since any such p is either prime or composite, it is sufficient to test q by all
 
 If any $p > \sqrt{q}$ divides q, so does ${q \over p}$, which is smaller than $\sqrt{q}$. Hence, we only need to test q with primes up to $\sqrt{q}$.
 
-If a sequence of primes is needed, instead of explicitly testing for divisibility, it is generally much faster to simply cross out all non-primes in an interval by computing multiples of primes gathered so far. This approach is called [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) and we use it to collect all primes up to $\sqrt{MAX}$.
+If a sequence of primes is needed, instead of explicitly testing for divisibility, it is generally much faster to simply cross out all non-primes in an interval by computing multiples of primes gathered so far. This approach is called &#x1F517;[sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) and we use it to collect all primes up to $\sqrt{MAX}$.
 
 Finally, we select an appropriate interval (called page) including the target range $[MIN,MAX]$ and use previously gathered primes to sieve out non-primes in that interval. What remains is the set of desired prime values.
 
