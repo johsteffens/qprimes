@@ -50,7 +50,7 @@ This test computes the last few primes below 2<sup>64</sup>. It is the worst cas
 
 ## Method
 
-**qprimes** uses a combination of [sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) and paging.
+**qprimes** uses a combination of &#x1F517;[sieving](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) and paging.
 
 ### Description
 
@@ -68,9 +68,9 @@ Although the method has its roots in ancient times, it is still considered among
 
 ## Motivation
 
-Prime numbers are useful in various disciplines of numerical processing such as [LCGs](https://en.wikipedia.org/wiki/Linear_congruential_generator) and [hash tables](https://en.wikipedia.org/wiki/Hash_table).
+Prime numbers are useful in various disciplines of numerical processing such as &#x1F517;[LCGs](https://en.wikipedia.org/wiki/Linear_congruential_generator) and &#x1F517;[hash tables](https://en.wikipedia.org/wiki/Hash_table).
 
-I experimented especially with [cuckoo hashing](https://en.wikipedia.org/wiki/Cuckoo_hashing) to develop the specific associative binding and runtime type awareness technique in [beth](https://github.com/johsteffens/beth). I prefer using LCGs for algorithm testing in [monte carlo simulations](https://en.wikipedia.org/wiki/Monte_Carlo_method).
+I experimented especially with &#x1F517;[cuckoo hashing](https://en.wikipedia.org/wiki/Cuckoo_hashing) to develop the specific associative binding and runtime type awareness technique in [beth](https://github.com/johsteffens/beth). I prefer using LCGs for algorithm testing in &#x1F517;[monte carlo simulations](https://en.wikipedia.org/wiki/Monte_Carlo_method).
 
 I wrote this simple prime generator as tool for developing/improving above techniques.
 
